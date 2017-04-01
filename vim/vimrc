@@ -1,5 +1,8 @@
+
 "colorscheme molokai "设置主题颜色
 colorscheme wombat256mod "设置主题颜色
+"colorscheme fatmouse "设置主题颜色
+"set background=light
 
 syntax on "设置开启代码高亮
 
@@ -42,14 +45,13 @@ func SetTitle()
         call append(line(".")+5, "\#!/bin/bash") 
         call append(line(".")+6, "") 
     elseif &filetype == 'python'
-        call setline(1,"\#########################################################################")
-        call append(line("."),"\# File Name: ".expand("%"))
-        call append(line(".")+1,"\# Author: fatmouse")
-        call append(line(".")+2,"\# mail: burningkernel@icloud.com")
-        call append(line(".")+3,"\# Created Time: ".strftime("%c"))
-        call append(line(".")+4,"\# code:utf-8")
-        call append(line(".")+5,"\#########################################################################")
-        call append(line(".")+6, "") 
+        call setline(1,"\"\"\"")
+        call append(line(".")," File Name: ".expand("%"))
+        call append(line(".")+1," Author: fatmouse")
+        call append(line(".")+2," mail: burningkernel@icloud.com")
+        call append(line(".")+3," Created Time: ".strftime("%c"))
+        call append(line(".")+4,"")
+        call append(line(".")+5, "\"\"\"") 
     else 
         call setline(1, "/*************************************************************************") 
         call append(line("."), "    > File Name: ".expand("%")) 
@@ -84,6 +86,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Raimondi/delimitMate'
+Bundle 'Vimjas/vim-python-pep8-indent'
 "for python
 Bundle 'vim-scripts/indentpython.vim'
 Bundle 'nvie/vim-flake8'
@@ -98,15 +101,19 @@ nmap <F5> :NERDTreeToggle<cr>
 set nocompatible
 set laststatus=2
 let g:Powerline_symbols = 'fancy'
-"使syntax工作
-let g:syntastic_check_on_open=1
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+
+autocmd BufRead,BufNewFile *.c,*.cpp exec ":call ForCpp()"
+func ForCpp()
+    "使syntax工作
+    let g:syntastic_check_on_open=1
+    let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_wq = 0
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endfunc
 
 let delimitMate_expand_cr = 1
 
