@@ -1,5 +1,5 @@
-
-colorscheme molokai "设置主题颜色
+"colorscheme molokai "设置主题颜色
+colorscheme wombat256mod "设置主题颜色
 
 syntax on "设置开启代码高亮
 
@@ -12,7 +12,6 @@ set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936
-set fileencoding=utf-8
 
 "设置文件类型检测
 autocmd BufRead,BufNewFile *.md set filetype=markdown
@@ -24,6 +23,9 @@ autocmd BufRead,BufNewFile *.py set filetype=python
 set cursorline cursorcolumn
 set colorcolumn=80
 
+"设置自动缩进
+set smartindent
+set autoindent
 
 
 "设置自动添加文件头
@@ -81,6 +83,11 @@ Bundle 'scrooloose/syntastic'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/nerdtree'
 Bundle 'Lokaltog/vim-powerline'
+Bundle 'Raimondi/delimitMate'
+"for python
+Bundle 'vim-scripts/indentpython.vim'
+Bundle 'nvie/vim-flake8'
+
 filetype on
 
 
@@ -100,3 +107,26 @@ let g:syntastic_check_on_wq = 0
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+let delimitMate_expand_cr = 1
+
+"简化vim水平垂直窗口切换的命令
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+
+"This configure for python
+autocmd BufRead,BufNewFile *.py exec ":call ForPython()"
+func ForPython()
+    "使用空格代替tab
+    set expandtab
+    set smarttab
+    set shiftwidth=4
+    set tabstop=4
+    let python_highlight_all=1
+    syntax on
+endfunc
+
